@@ -1,89 +1,177 @@
-//
-//  TaskViewController.swift
-//  StudentOrganizer
-//
-//  Created by MILES CHRISTIAN TAN on 11/4/26.
-//
-
 import UIKit
+import CoreData
 
-class TaskViewController: UITableViewController {
+class TasksViewController: UITableViewController {
 
+    // MARK: - Properties
+    var subject: Subject?
+
+    private var tasks: [TaskItem] = []
+    private let context = CoreDataStack.shared.context
+
+    // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = subject?.name
+    }
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadTasks()
+    }
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    // MARK: - Core Data
+    private func loadTasks() {
+        guard let subject = subject else { return }
+
+        let request: NSFetchRequest<TaskItem> = TaskItem.fetchRequest()
+
+        request.predicate = NSPredicate(format: "subject == %@", subject)
+
+        request.sortDescriptors = [
+            NSSortDescriptor(key: "isDone", ascending: true),
+            NSSortDescriptor(key: "dueDate", ascending: true)
+        ]
+
+        do {
+            tasks = try context.fetch(request)
+        } catch {
+            print("Could not fetch tasks: \(error)")
+            tasks = []
+        }
+
+        tableView.backgroundView = tasks.isEmpty
+            ? emptyStateLabel("No tasks yet.\nTap + to add one.")
+            : nil
+
+        tableView.reloadData()
+    }
+
+    // MARK: - Actions
+    @IBAction func addTaskTapped(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "ShowTaskFormSegue", sender: nil)
+    }
+
+    @IBAction func notesTapped(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "ShowNotesSegue", sender: nil)
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
+        return tasks.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell",
+                                                 for: indexPath)
 
-        // Configure the cell...
+        let task = tasks[indexPath.row]
+
+        let dueText = task.dueDate?.formatted(
+            date: .abbreviated,
+            time: .shortened
+        ) ?? "no due date"
+
+        var content = cell.defaultContentConfiguration()
+        content.text = task.title ?? "Untitled task"
+        content.secondaryText = "Due \(dueText) - \(priorityName(for: task.priority))"
+        content.textProperties.color = task.isDone ? .secondaryLabel : .label
+
+        cell.contentConfiguration = content
+        cell.accessoryType = task.isDone ? .checkmark : .none
 
         return cell
     }
-    */
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    private func priorityName(for value: Int16) -> String {
+        switch value {
+        case 0:
+            return "Low"
+        case 2:
+            return "High"
+        default:
+            return "Medium"
+        }
     }
-    */
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    // MARK: - Table view delegate
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
+
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        performSegue(
+            withIdentifier: "ShowTaskFormSegue",
+            sender: tasks[indexPath.row]
+        )
     }
-    */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
+    -> UISwipeActionsConfiguration? {
 
+        let task = tasks[indexPath.row]
+
+        let title = task.isDone ? "Undo" : "Done"
+
+        let action = UIContextualAction(style: .normal, title: title) {
+            [weak self] _, _, completion in
+
+            task.isDone.toggle()
+
+            CoreDataStack.shared.save()
+            self?.loadTasks()
+
+            completion(true)
+        }
+
+        action.backgroundColor = .systemGreen
+
+        return UISwipeActionsConfiguration(actions: [action])
     }
-    */
 
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    override func tableView(_ tableView: UITableView,
+                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
+    -> UISwipeActionsConfiguration? {
+
+        let action = UIContextualAction(style: .destructive, title: "Delete") {
+            [weak self] _, _, completion in
+
+            guard let self = self else {
+                completion(false)
+                return
+            }
+
+            self.context.delete(self.tasks[indexPath.row])
+
+            CoreDataStack.shared.save()
+            self.loadTasks()
+
+            completion(true)
+        }
+
+        return UISwipeActionsConfiguration(actions: [action])
     }
-    */
 
-    /*
     // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue,
+                          sender: Any?) {
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        switch segue.identifier {
+
+        case "ShowTaskFormSegue":
+            guard let destination =
+                    segue.destination as? TaskFormViewController
+            else { return }
+
+            destination.subject = subject
+            destination.taskToEdit = sender as? TaskItem
+
+        default:
+            break
+        }
     }
-    */
-
 }
