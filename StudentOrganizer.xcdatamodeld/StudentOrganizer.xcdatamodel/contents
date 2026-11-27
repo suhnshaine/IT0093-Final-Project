@@ -12,7 +12,7 @@
         <relationship name="notes" toMany="YES" deletionRule="Cascade" destinationEntity="Note" inverseName="subject" inverseEntity="Note"/>
         <relationship name="tasks" toMany="YES" deletionRule="Cascade" destinationEntity="TaskItem" inverseName="subject" inverseEntity="TaskItem"/>
     </entity>
-    <entity name="TaskItem" representedClassName="TaskItem" syncable="YES" codeGenerationType="class">
+    <entity name="TaskItem" representedClassName=".TaskItem" syncable="YES" codeGenerationType="class">
         <attribute name="details" optional="YES" attributeType="String"/>
         <attribute name="dueDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="isDone" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
