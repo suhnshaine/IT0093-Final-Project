@@ -51,6 +51,8 @@ class TaskFormViewController: UIViewController {
     // MARK: - Actions
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         
+        print("SAVE WORKING")
+        
         view.endEditing(true)
         
         let taskTitle = (titleTextField.text ?? "")
@@ -72,5 +74,24 @@ class TaskFormViewController: UIViewController {
         
         task.title = taskTitle
         task.details = detailsTextField.text
+        
+        task.dueDate =
+        dueDatePicker.date
+        
+        task.priority =
+        Int16(
+            prioritySegmentedControl
+                .selectedSegmentIndex
+        )
+        
+        task.isDone =
+        completedSwitch.isOn
+        
+        task.subject = subject
+        
+        CoreDataStack.shared.save()
+        
+        navigationController?
+            .popViewController(animated: true)
     }
 }

@@ -113,7 +113,8 @@
                         </centerItemGroups>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="qhg-uB-h0P">
                             <connections>
-                                <segue destination="8qa-gZ-g96" kind="show" id="iKA-j6-0B7"/>
+                                <action selector="addTaskTapped:" destination="sgF-QB-Nmf" id="OLB-4F-WSE"/>
+                                <segue destination="8qa-gZ-g96" kind="show" identifier="ShowTaskFormSegue" id="iKA-j6-0B7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -125,10 +126,10 @@
             </objects>
             <point key="canvasLocation" x="1766" y="-1"/>
         </scene>
-        <!--Title-->
+        <!--Task Form View Controller-->
         <scene sceneID="Hhk-sU-vR7">
             <objects>
-                <viewController id="8qa-gZ-g96" customClass="TaskFormViewController" customModule="StudentOrganizer" sceneMemberID="viewController">
+                <viewController title="Task Form View Controller" id="8qa-gZ-g96" customClass="TaskFormViewController" customModule="StudentOrganizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="88n-hH-AfL">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -208,10 +209,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="AdA-gU-w81"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Title" id="ezo-yo-1L5">
+                    <navigationItem key="navigationItem" title="Task " id="ezo-yo-1L5">
                         <barButtonItem key="rightBarButtonItem" title="Save" id="rGy-CJ-pGi">
                             <connections>
-                                <action selector="saveTapped:" destination="8qa-gZ-g96" id="fLp-2n-Ixn"/>
+                                <action selector="saveTapped:" destination="8qa-gZ-g96" id="OxC-uV-J2T"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -295,11 +296,87 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="jko-hO-u6a" id="DwM-MW-EQm"/>
+                        <segue destination="z0w-q5-uX1" kind="show" identifier="ShowNoteFormSegue" id="RyP-cT-B3h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V80-ws-T3w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3527" y="-1"/>
+        </scene>
+        <!--Note Form View Controller-->
+        <scene sceneID="VrT-NA-buk">
+            <objects>
+                <viewController id="z0w-q5-uX1" customClass="NoteFormViewController" customModule="StudentOrganizer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KWc-Eg-E8n">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Ufq-uT-Y0K">
+                                <rect key="frame" x="20" y="192" width="353" height="473"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eqz-cW-UvZ">
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="20.333333333333332"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bzq-cR-f7n">
+                                        <rect key="frame" x="0.0" y="32.333333333333343" width="353" height="150"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="150" id="dnC-Tm-OTY"/>
+                                        </constraints>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Wn-aH-JN4">
+                                        <rect key="frame" x="0.0" y="194.33333333333331" width="353" height="20.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9ZT-Mu-BcO">
+                                        <rect key="frame" x="0.0" y="226.66666666666669" width="353" height="200"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="9ZT-Mu-BcO" secondAttribute="height" multiplier="353:200" id="IEK-Z5-fwp"/>
+                                            <constraint firstAttribute="height" constant="200" id="UE6-hF-FbK"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkm-s7-Haq">
+                                        <rect key="frame" x="0.0" y="438.66666666666663" width="353" height="34.333333333333314"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Choose Photo"/>
+                                        <connections>
+                                            <action selector="choosePhotoTapped:" destination="z0w-q5-uX1" eventType="touchUpInside" id="jCi-YZ-Oob"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="GXe-Ns-Mg3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="GXe-Ns-Mg3" firstAttribute="trailing" secondItem="Ufq-uT-Y0K" secondAttribute="trailing" constant="20" id="HoR-ac-QvZ"/>
+                            <constraint firstItem="Ufq-uT-Y0K" firstAttribute="top" secondItem="GXe-Ns-Mg3" secondAttribute="top" constant="20" id="Tzl-ZV-kEW"/>
+                            <constraint firstItem="Ufq-uT-Y0K" firstAttribute="leading" secondItem="GXe-Ns-Mg3" secondAttribute="leading" constant="20" id="kxG-So-F3w"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="yQd-XF-CAh">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="mqZ-kh-GUI">
+                            <connections>
+                                <action selector="saveTapped:" destination="z0w-q5-uX1" id="rt6-LO-cH7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="noteTextView" destination="bzq-cR-f7n" id="RfE-5Z-HB1"/>
+                        <outlet property="photoImageView" destination="9ZT-Mu-BcO" id="izO-NF-RBY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3eE-OG-Dka" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4425" y="-1"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RjK-qU-QSc">
@@ -321,6 +398,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
