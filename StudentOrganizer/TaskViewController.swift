@@ -161,14 +161,21 @@ class TasksViewController: UITableViewController {
                           sender: Any?) {
 
         switch segue.identifier {
-
+            
         case "ShowTaskFormSegue":
             guard let destination =
-                    segue.destination as? TaskFormViewController
+                segue.destination as? TaskFormViewController
             else { return }
 
             destination.subject = subject
             destination.taskToEdit = sender as? TaskItem
+
+        case "ShowNotesSegue":
+            guard let destination =
+                segue.destination as? NotesViewController
+            else { return }
+
+            destination.subject = subject
 
         default:
             break

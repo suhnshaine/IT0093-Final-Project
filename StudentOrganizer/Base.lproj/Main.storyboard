@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -66,7 +67,7 @@
         <!--Notes-->
         <scene sceneID="CmD-ZP-A27">
             <objects>
-                <tableViewController id="sgF-QB-Nmf" sceneMemberID="viewController">
+                <tableViewController id="sgF-QB-Nmf" customClass="TasksViewController" customModule="StudentOrganizer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="CIR-vp-7vZ" customClass="TaskViewController">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -112,10 +113,13 @@
                         </centerItemGroups>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="qhg-uB-h0P">
                             <connections>
-                                <segue destination="8qa-gZ-g96" kind="show" identifier="ShowTaskFormSegue" id="J8V-TA-sxg"/>
+                                <segue destination="8qa-gZ-g96" kind="show" id="iKA-j6-0B7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="yi9-4z-ETl" kind="show" identifier="ShowNotesSegue" id="SfL-iR-l6w"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y5b-op-mEm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -223,6 +227,79 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7jw-cr-8vP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2648" y="-1"/>
+        </scene>
+        <!--Notes View Controller-->
+        <scene sceneID="wqN-3Q-xLc">
+            <objects>
+                <viewController id="yi9-4z-ETl" customClass="NotesViewController" customModule="StudentOrganizer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PUD-ga-swI" customClass="UICollectionViewCell">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jko-hO-u6a">
+                                <rect key="frame" x="0.0" y="172" width="393" height="612"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Qfb-3s-dib">
+                                    <size key="itemSize" width="211" height="245"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NoteCell" id="S0k-qk-Osb" customClass="NoteCell" customModule="StudentOrganizer" customModuleProvider="target">
+                                        <rect key="frame" x="91" y="0.0" width="211" height="245"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Ewp-9K-sLa">
+                                            <rect key="frame" x="0.0" y="0.0" width="211" height="245"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8ch-0N-Ng7">
+                                                    <rect key="frame" x="12" y="8" width="191" height="128"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epJ-mT-eG8">
+                                                    <rect key="frame" x="84" y="154" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="211" height="245"/>
+                                        <connections>
+                                            <outlet property="noteLabel" destination="epJ-mT-eG8" id="22d-Kh-4w1"/>
+                                            <outlet property="photoImageView" destination="8ch-0N-Ng7" id="o3O-R8-3bE"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6QC-Jy-dBk"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6QC-Jy-dBk" firstAttribute="trailing" secondItem="jko-hO-u6a" secondAttribute="trailing" id="3RE-Lh-IKA"/>
+                            <constraint firstItem="6QC-Jy-dBk" firstAttribute="bottom" secondItem="jko-hO-u6a" secondAttribute="bottom" id="7Nj-Jp-e7r"/>
+                            <constraint firstItem="jko-hO-u6a" firstAttribute="leading" secondItem="6QC-Jy-dBk" secondAttribute="leading" id="APD-Tp-fIB"/>
+                            <constraint firstItem="jko-hO-u6a" firstAttribute="top" secondItem="6QC-Jy-dBk" secondAttribute="top" id="nCo-k4-pfv"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="djf-qV-8aU">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="7YT-oe-pyF">
+                            <connections>
+                                <action selector="addNoteTapped:" destination="yi9-4z-ETl" id="IHc-fc-IG5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="collectionView" destination="jko-hO-u6a" id="DwM-MW-EQm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V80-ws-T3w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3527" y="-1"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RjK-qU-QSc">
