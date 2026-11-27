@@ -107,7 +107,11 @@
                         <centerItemGroups>
                             <barButtonItemGroup customizationDisposition="fixed" id="swS-uO-AU7">
                                 <barButtonItems>
-                                    <barButtonItem title="Item" id="Std-1V-bnM"/>
+                                    <barButtonItem title="Item" id="Std-1V-bnM">
+                                        <connections>
+                                            <segue destination="yi9-4z-ETl" kind="show" id="ceS-zz-VeU"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </barButtonItems>
                             </barButtonItemGroup>
                         </centerItemGroups>
@@ -397,6 +401,9 @@
             <point key="canvasLocation" x="104.58015267175573" y="-1.4084507042253522"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="SfL-iR-l6w"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
