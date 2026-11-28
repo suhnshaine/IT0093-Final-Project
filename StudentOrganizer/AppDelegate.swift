@@ -3,6 +3,7 @@
 //  StudentOrganizer
 //
 //  Created by GIAN CARLO SARMIENTO on 10/21/26.
+//  Tested on Physical iPhone by SHIREALETH ACORDA on 11/28/2026
 //
 
 import UIKit
